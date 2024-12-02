@@ -3,16 +3,11 @@ defmodule AdventOfCode do
   Documentation for `AdventOfCode`.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> AdventOfCode.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  @spec readlines(binary()) :: list()
+  def readlines(filepath) do
+    lines = File.stream!(filepath)
+      |> Stream.map(&String.trim/1)
+      |> Enum.to_list
+    lines
   end
 end
