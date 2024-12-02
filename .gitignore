@@ -31,3 +31,5 @@ aoc-*.tar
 
 .direnv/
 
+.envrc
+/scripts/data/*
