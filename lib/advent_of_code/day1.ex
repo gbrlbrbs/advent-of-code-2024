@@ -17,6 +17,7 @@ defmodule AdventOfCode.Day1 do
     lines |> transpose_lines
       |> Enum.map(&Enum.sort/1)
       |> Enum.zip_reduce(0, fn elements, acc ->
+          # reduce works here because elements is a 2-element list
           abs(Enum.reduce(elements, fn x, acc -> acc - x end)) + acc
         end)
   end
