@@ -2,7 +2,7 @@ defmodule AdventOfCode.Day1 do
   @spec split_nums(binary()) :: list()
   defp split_nums(line) do
     Regex.scan(~r/\d+/, line)
-      |> Enum.map(&Enum.at(&1, 0))
+      |> List.flatten
       |> Enum.map(&String.to_integer/1)
   end
 
