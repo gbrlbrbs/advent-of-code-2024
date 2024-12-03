@@ -1,26 +1,16 @@
 defmodule AdventOfCode.Day2 do
-  defp is_increasing?([head | tail], prev) do
-    if prev > head do
+  defp is_same_order?([head | tail], prev, reverse_fun) do
+    if reverse_fun.(prev, head) do
       false
     else
-      is_increasing?(tail, head)
+      is_same_order?(tail, head, reverse_fun)
     end
   end
 
-  defp is_increasing?([], _), do: true
-
-  defp is_decreasing?([head | tail], prev) do
-    if prev < head do
-      false
-    else
-      is_decreasing?(tail, head)
-    end
-  end
-
-  defp is_decreasing?([], _), do: true
+  defp is_same_order?([], _, _), do: true
 
   defp is_monotonic?([head | tail]) do
-    is_increasing?(tail, head) or is_decreasing?(tail, head)
+    is_same_order?(tail, head, &Kernel.>/2) or is_same_order?(tail, head, &Kernel.</2)
   end
 
   @spec is_safe?(list(integer())) :: boolean()
