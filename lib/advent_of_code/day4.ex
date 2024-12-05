@@ -1,5 +1,5 @@
 defmodule AdventOfCode.Day4 do
-  @directions {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}}
+  @directions [{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}]
 
   defp valid_position?({y, x}, {m, n}) do
     x >= 0 and x < n and y >= 0 and y < m
@@ -8,7 +8,7 @@ defmodule AdventOfCode.Day4 do
   @spec search(list(binary()), binary()) :: list()
   def search(lines, word) do
     m = length(lines)
-    n = length(hd(lines))
+    n = String.length(hd(lines))
 
     for row <- 0..m-1,
         col <- 0..n-1,
