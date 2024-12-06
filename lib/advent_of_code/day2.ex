@@ -10,7 +10,8 @@ defmodule AdventOfCode.Day2 do
   defp is_same_order?([], _, _), do: true
 
   defp is_monotonic?([head | tail]) do
-    is_same_order?(tail, head, &Kernel.>/2) or is_same_order?(tail, head, &Kernel.</2) # O(n)
+    # O(n)
+    is_same_order?(tail, head, &Kernel.>/2) or is_same_order?(tail, head, &Kernel.</2)
   end
 
   @spec is_safe?(list(integer())) :: boolean()
@@ -18,9 +19,13 @@ defmodule AdventOfCode.Day2 do
   Checks if a report is safe. Receives the report as a list of integer values.
   """
   def is_safe?(report) do
-    diffs_safe? = report |> Enum.chunk_every(2, 1, :discard)
+    diffs_safe? =
+      report
+      |> Enum.chunk_every(2, 1, :discard)
       |> Enum.map(fn [a, b] -> abs(a - b) end)
-      |> Enum.all?(fn x -> x >= 1 and x <= 3 end) # O(n)
+      # O(n)
+      |> Enum.all?(fn x -> x >= 1 and x <= 3 end)
+
     is_monotonic?(report) and diffs_safe?
   end
 

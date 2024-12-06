@@ -13,18 +13,19 @@ defmodule AdventOfCode.Day4 do
 
     dirs = if use_x, do: @x_directions, else: @directions
 
-    for row <- 0..m-1,
-        col <- 0..n-1,
+    for row <- 0..(m - 1),
+        col <- 0..(n - 1),
         dir <- dirs,
         check_word(lines, word, {row, col}, dir, {m, n}) do
-          {{row, col}, dir}
+      {{row, col}, dir}
     end
   end
 
   defp check_word(grid, word, {y, x}, {dy, dx}, {m, n}) do
-    word |> String.graphemes()
-     |> Enum.with_index()
-     |> Enum.all?(fn {char, idx} ->
+    word
+    |> String.graphemes()
+    |> Enum.with_index()
+    |> Enum.all?(fn {char, idx} ->
       row = y + idx * dy
       col = x + idx * dx
 
@@ -43,7 +44,8 @@ defmodule AdventOfCode.Day4 do
 
   @spec calculate_center(list(tuple()), integer()) :: list()
   def calculate_center(found_positions, center_idx) do
-    found_positions |> Enum.map(fn {{row, col}, {dy, dx}} ->
+    found_positions
+    |> Enum.map(fn {{row, col}, {dy, dx}} ->
       {row + center_idx * dy, col + center_idx * dx}
     end)
   end
