@@ -38,18 +38,17 @@ defmodule AdventOfCode.Day6 do
 
   @spec move_guard(tuple(), tuple(), list(list()), integer(), map()) :: MapSet.t()
   defp move_guard({y, x}, {m, n}, grid, dir_idx, seen) do
-    if D4.valid_position?({y, x}, {m, n}) do
-      seen = seen |> MapSet.put({y, x})
-      {next_y, next_x} = move_one({y, x}, dir_idx)
-      {next_y, next_x} =
-        case access_grid(grid, next_y, next_x) do
-          "#" ->
-            dir_idx = Integer.mod(dir_idx + 1, 4)
-            move_one({y, x}, dir_idx)
-          _ ->
-            {next_y, next_x}
-        end
-      move_guard({next_y, next_x}, {m, n}, grid, dir_idx, seen)
+    seen = seen |> MapSet.put({y, x})
+    {next_y, next_x} = move_one({y, x}, dir_idx)
+    if D4.valid_position?({next_y, next_x}, {m, n}) do
+      case access_grid(grid, next_y, next_x) do
+        "#" ->
+          dir_idx = Integer.mod(dir_idx + 1, 4)
+          {next_y, next_x} = move_one({y, x}, dir_idx)
+          move_guard({next_y, next_x}, {m, n}, grid, dir_idx, seen)
+        _ ->
+          move_guard({next_y, next_x}, {m, n}, grid, dir_idx, seen)
+      end
     else
       seen
     end
