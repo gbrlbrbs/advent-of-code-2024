@@ -7,17 +7,20 @@ defmodule AdventOfCode.Day4 do
     x >= 0 and x < n and y >= 0 and y < m
   end
 
+  def size_grid(grid) do
+    {length(grid), length(hd(grid))}
+  end
+
   @spec search(list(binary()), binary(), boolean()) :: list()
   def search(lines, word, use_x \\ false) do
-    m = length(lines)
-    n = String.length(hd(lines))
-
+    grid = lines |> Enum.map(&String.graphemes/1)
+    {m, n} = size_grid(grid)
     dirs = if use_x, do: @x_directions, else: @directions
 
     for row <- 0..(m - 1),
         col <- 0..(n - 1),
         dir <- dirs,
-        check_word(lines, word, {row, col}, dir, {m, n}) do
+        check_word(grid, word, {row, col}, dir, {m, n}) do
       {{row, col}, dir}
     end
   end
@@ -38,9 +41,9 @@ defmodule AdventOfCode.Day4 do
     end)
   end
 
-  @spec get_letter(list(binary()), integer(), integer()) :: nil | binary()
+  @spec get_letter(list(list()), integer(), integer()) :: nil | binary()
   defp get_letter(grid, row, col) do
-    grid |> Enum.at(row) |> String.at(col)
+    grid |> Enum.at(row) |> Enum.at(col)
   end
 
   @spec calculate_center(list(tuple()), integer()) :: list()
