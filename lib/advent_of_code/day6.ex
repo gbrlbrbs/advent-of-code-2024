@@ -1,7 +1,7 @@
 defmodule AdventOfCode.Day6 do
   alias AdventOfCode.Day4, as: D4
 
-  @directions [{-1, 0}, {0, 1}, {1, 0}, {0, -1}] # {row, column} format
+  @directions [[-1, 0], [0, 1], [1, 0], [0, -1]] # {row, column} format
 
   @spec get_visited_positions(list()) :: MapSet.t()
   def get_visited_positions(lines) do
@@ -11,6 +11,9 @@ defmodule AdventOfCode.Day6 do
 
     start_guard({start_x, start_y}, lines)
   end
+
+  @spec access_grid(list(list()), integer(), integer()) :: any()
+  def access_grid(grid, row, col), do: grid |> Enum.at(row) |> Enum.at(col)
 
   defp search_guard({line, y}, acc) do
     idx = line
@@ -39,7 +42,7 @@ defmodule AdventOfCode.Day6 do
       seen = seen |> MapSet.put({y, x})
       {next_y, next_x} = move_one({y, x}, dir_idx)
       {next_y, next_x} =
-        case grid[next_y][next_x] do
+        case access_grid(grid, next_y, next_x) do
           "#" ->
             dir_idx = Integer.mod(dir_idx + 1, 4)
             move_one({y, x}, dir_idx)
@@ -53,7 +56,9 @@ defmodule AdventOfCode.Day6 do
   end
 
   defp move_one({y, x}, dir_idx) do
-    {y + @directions[dir_idx][0], x + @directions[dir_idx][1]}
+    dy = @directions |> access_grid(dir_idx, 0)
+    dx = @directions |> access_grid(dir_idx, 1)
+    {y + dy, x + dx}
   end
 
 end
