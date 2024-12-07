@@ -5,11 +5,10 @@ defmodule AdventOfCode do
 
   @spec readlines(binary()) :: list()
   def readlines(filepath) do
-    lines =
-      File.stream!(filepath)
+    filepath
+      |> Path.absname()
+      |> File.stream!()
       |> Stream.map(&String.trim/1)
       |> Enum.to_list()
-
-    lines
   end
 end
