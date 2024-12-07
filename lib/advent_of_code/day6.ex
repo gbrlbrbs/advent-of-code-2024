@@ -3,6 +3,7 @@ defmodule AdventOfCode.Day6 do
 
   @directions [{-1, 0}, {0, 1}, {1, 0}, {0, -1}] # {row, column} format
 
+  @spec get_visited_positions(list()) :: MapSet.t()
   def get_visited_positions(lines) do
     %{x: start_x, y: start_y} = lines
     |> Enum.with_index()
@@ -32,7 +33,7 @@ defmodule AdventOfCode.Day6 do
     move_guard({start_y, start_x}, {m, n}, grid, dir_idx, seen_positions)
   end
 
-  @spec move_guard(tuple(), tuple(), list(list()), integer(), map()) :: map()
+  @spec move_guard(tuple(), tuple(), list(list()), integer(), map()) :: MapSet.t()
   defp move_guard({y, x}, {m, n}, grid, dir_idx, seen) do
     if D4.valid_position?({y, x}, {m, n}) do
       seen = seen |> MapSet.put({y, x})
