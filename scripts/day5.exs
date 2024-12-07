@@ -13,3 +13,7 @@ page_map = rules |> AdventOfCode.Day5.create_page_map()
 sum_middle = AdventOfCode.Day5.sum_middle_correct(print_lists, page_map)
 
 IO.puts("Sum of middle elements: #{sum_middle}")
+
+sum_middle_incorrect = AdventOfCode.Day5.sum_middle_incorrect(print_lists, page_map)
+
+IO.puts("Sum of middle elements of incorrect: #{sum_middle_incorrect}")
