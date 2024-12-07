@@ -15,7 +15,7 @@ defmodule AdventOfCode.Day5 do
     end)
   end
 
-  defp parse_update(line, page_map) do
+  defp parse_update_and_get_middle(line, page_map) do
     pages = line |> String.split(",")
     middle_element = pages |> Enum.at(div(length(pages) - 1, 2))
     accum_init = %{is_ordered: true, tail: []}
@@ -52,7 +52,7 @@ defmodule AdventOfCode.Day5 do
 
   def sum_middle_correct(lines, page_map) do
     lines
-    |> Enum.map(&parse_update(&1, page_map))
+    |> Enum.map(&parse_update_and_get_middle(&1, page_map))
     |> Enum.sum()
   end
 end
