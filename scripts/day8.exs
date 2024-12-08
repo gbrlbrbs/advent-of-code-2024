@@ -7,9 +7,16 @@ lines = AdventOfCode.readlines("./scripts/data/day8.txt")
 
 edges = antennae_positions |> D8.create_edges()
 
-antinodes =
+antinodes_pt1 =
+  edges
+  |> D8.create_antinodes(size, true)
+  |> MapSet.size()
+
+IO.puts("Number of distinct antinodes: #{antinodes_pt1}")
+
+antinodes_pt2 =
   edges
   |> D8.create_antinodes(size)
   |> MapSet.size()
 
-IO.puts("Number of distinct antinodes: #{antinodes}")
+IO.puts("Number of antinodes in part 2: #{antinodes_pt2}")
