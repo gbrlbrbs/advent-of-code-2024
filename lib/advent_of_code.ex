@@ -6,9 +6,9 @@ defmodule AdventOfCode do
   @spec readlines(binary()) :: list()
   def readlines(filepath) do
     filepath
-      |> Path.absname()
-      |> File.stream!()
-      |> Stream.map(&String.trim/1)
-      |> Enum.to_list()
+    |> Path.absname()
+    |> File.stream!()
+    |> Stream.map(&String.trim/1)
+    |> Enum.to_list()
   end
 end

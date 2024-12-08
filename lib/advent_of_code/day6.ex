@@ -1,7 +1,8 @@
 defmodule AdventOfCode.Day6 do
   alias AdventOfCode.Day4, as: D4
 
-  @directions [[-1, 0], [0, 1], [1, 0], [0, -1]] # {row, column} format
+  # {row, column} format
+  @directions [[-1, 0], [0, 1], [1, 0], [0, -1]]
 
   @spec get_visited_positions(list()) :: tuple()
   def get_visited_positions(lines) do
@@ -22,9 +23,11 @@ defmodule AdventOfCode.Day6 do
   def access_grid(grid, row, col), do: grid |> Enum.at(row) |> Enum.at(col)
 
   defp search_guard({line, y}, acc) do
-    idx = line
-     |> String.graphemes()
-     |> Enum.find_index(&(&1 == "^"))
+    idx =
+      line
+      |> String.graphemes()
+      |> Enum.find_index(&(&1 == "^"))
+
     case idx do
       nil -> acc
       x when is_integer(x) -> %{acc | y: y, x: x}
@@ -36,6 +39,7 @@ defmodule AdventOfCode.Day6 do
     grid =
       lines
       |> Enum.map(&String.graphemes/1)
+
     size = D4.size_grid(grid)
     dir_idx = 0
     seen_positions = MapSet.new()
@@ -47,11 +51,13 @@ defmodule AdventOfCode.Day6 do
   defp move_guard({y, x}, {m, n}, grid, dir_idx, seen) do
     seen = seen |> MapSet.put({y, x})
     {next_y, next_x} = move_one({y, x}, dir_idx)
+
     if D4.valid_position?({next_y, next_x}, {m, n}) do
       case access_grid(grid, next_y, next_x) do
         "#" ->
           new_dir = Integer.mod(dir_idx + 1, 4)
           move_guard({y, x}, {m, n}, grid, new_dir, seen)
+
         _ ->
           move_guard({next_y, next_x}, {m, n}, grid, dir_idx, seen)
       end
@@ -74,33 +80,37 @@ defmodule AdventOfCode.Day6 do
 
     visited_positions
     |> MapSet.to_list()
-    |> Enum.filter(
-      &(&1 != start and will_loop?(start, &1, size, grid, dir_idx, seen))
-    )
+    |> Enum.filter(&(&1 != start and will_loop?(start, &1, size, grid, dir_idx, seen)))
     |> length()
   end
 
   defp will_loop?({y, x}, {obs_y, obs_x}, {m, n}, grid, dir_idx, seen) do
     {next_y, next_x} = move_one({y, x}, dir_idx)
+
     cond do
       # final, will return true
       MapSet.member?(seen, {y, x, dir_idx}) ->
         true
+
       # initial, change dir and recurse
       {next_y, next_x} == {obs_y, obs_x} ->
         new_dir = Integer.mod(dir_idx + 1, 4)
         seen = seen |> MapSet.put({y, x, dir_idx})
         will_loop?({y, x}, {obs_y, obs_x}, {m, n}, grid, new_dir, seen)
+
       # neither, just recurse
       D4.valid_position?({next_y, next_x}, {m, n}) ->
         seen = seen |> MapSet.put({y, x, dir_idx})
+
         case access_grid(grid, next_y, next_x) do
           "#" ->
             new_dir = Integer.mod(dir_idx + 1, 4)
             will_loop?({y, x}, {obs_y, obs_x}, {m, n}, grid, new_dir, seen)
+
           _ ->
             will_loop?({next_y, next_x}, {obs_y, obs_x}, {m, n}, grid, dir_idx, seen)
         end
+
       # if last one is false, the guard has gone off the map, return false
       true ->
         false

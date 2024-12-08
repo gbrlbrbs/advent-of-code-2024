@@ -6,18 +6,21 @@ defmodule AdventOfCode.Day7 do
 
     test_value = String.to_integer(test_value)
 
-    is_valid? = calibration
-    |> Enum.at(0)
-    |> String.split(" ")
-    |> then(&can_solve?(tl(&1), hd(&1), test_value, ops))
+    is_valid? =
+      calibration
+      |> Enum.at(0)
+      |> String.split(" ")
+      |> then(&can_solve?(tl(&1), hd(&1), test_value, ops))
 
     if is_valid?, do: test_value, else: 0
   end
 
   defp can_solve?([], acc, test_value, _), do: String.to_integer(acc) == test_value
+
   defp can_solve?([head | tail], acc, test_value, ops) do
     acc_int = String.to_integer(acc)
     head_int = String.to_integer(head)
+
     if acc_int > test_value do
       false
     else
