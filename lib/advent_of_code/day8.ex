@@ -51,28 +51,33 @@ defmodule AdventOfCode.Day8 do
   def create_antinodes(edges, size) do
     edges
     |> Enum.map(fn {_, l} ->
-      l
-      |> Enum.map(&parse_edge/1)
+      l |> Enum.map(&parse_edge(&1, size))
     end)
     |> List.flatten()
-    |> Enum.filter(&valid_position?(&1, size))
     |> MapSet.new()
   end
 
-  defp parse_edge({point_a, point_b}) do
-    import Matrex.Operators
-    import Kernel, except: [-: 1, +: 2, -: 2]
+  defp parse_edge({point_a, point_b}, size) do
+    alias Matrex.Operators, as: MO
 
-    a = Matrex.new([point_a |> Tuple.to_list])
-    b = Matrex.new([point_b |> Tuple.to_list])
+    a = Matrex.new([point_a |> Tuple.to_list()])
+    b = Matrex.new([point_b |> Tuple.to_list()])
+    vec_edge = MO.-(a, b)
 
-    vec_edge = a - b
-    antinode_a = a + vec_edge
-    antinode_b = b - vec_edge
+    antinodes_a = gen_antinodes(a, vec_edge, &MO.+/2, size, [point_a])
+    antinodes_b = gen_antinodes(b, vec_edge, &MO.-/2, size, [point_b])
+    [antinodes_a, antinodes_b]
+  end
 
-    antinode_a = antinode_a |> matrex_to_int_tuple()
-    antinode_b = antinode_b |> matrex_to_int_tuple()
-    [antinode_a, antinode_b]
+  defp gen_antinodes(point, edge, op, size, acc) do
+    antinode_m = op.(point, edge)
+    antinode = antinode_m |> matrex_to_int_tuple()
+
+    if valid_position?(antinode, size) do
+      gen_antinodes(antinode_m, edge, op, size, [antinode | acc])
+    else
+      acc
+    end
   end
 
   defp matrex_to_int_tuple(m) do
