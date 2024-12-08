@@ -1,5 +1,5 @@
 defmodule AdventOfCode.Day6 do
-  alias AdventOfCode.Day4, as: D4
+  import AdventOfCode
 
   # {row, column} format
   @directions [[-1, 0], [0, 1], [1, 0], [0, -1]]
@@ -19,9 +19,6 @@ defmodule AdventOfCode.Day6 do
     |> Enum.reduce(%{y: nil, x: nil}, &search_guard/2)
   end
 
-  @spec access_grid(list(list()), integer(), integer()) :: any()
-  def access_grid(grid, row, col), do: grid |> Enum.at(row) |> Enum.at(col)
-
   defp search_guard({line, y}, acc) do
     idx =
       line
@@ -40,7 +37,7 @@ defmodule AdventOfCode.Day6 do
       lines
       |> Enum.map(&String.graphemes/1)
 
-    size = D4.size_grid(grid)
+    size = size_grid(grid)
     dir_idx = 0
     seen_positions = MapSet.new()
 
@@ -52,7 +49,7 @@ defmodule AdventOfCode.Day6 do
     seen = seen |> MapSet.put({y, x})
     {next_y, next_x} = move_one({y, x}, dir_idx)
 
-    if D4.valid_position?({next_y, next_x}, {m, n}) do
+    if valid_position?({next_y, next_x}, {m, n}) do
       case access_grid(grid, next_y, next_x) do
         "#" ->
           new_dir = Integer.mod(dir_idx + 1, 4)
@@ -74,7 +71,7 @@ defmodule AdventOfCode.Day6 do
 
   @spec num_loops(MapSet.t(), list(), tuple()) :: integer()
   def num_loops(visited_positions, grid, start) do
-    size = grid |> D4.size_grid()
+    size = grid |> size_grid()
     dir_idx = 0
     seen = MapSet.new()
 
@@ -99,7 +96,7 @@ defmodule AdventOfCode.Day6 do
         will_loop?({y, x}, {obs_y, obs_x}, {m, n}, grid, new_dir, seen)
 
       # neither, just recurse
-      D4.valid_position?({next_y, next_x}, {m, n}) ->
+      valid_position?({next_y, next_x}, {m, n}) ->
         seen = seen |> MapSet.put({y, x, dir_idx})
 
         case access_grid(grid, next_y, next_x) do

@@ -1,15 +1,7 @@
 defmodule AdventOfCode.Day4 do
+  import AdventOfCode
   @x_directions [{1, 1}, {1, -1}, {-1, 1}, {-1, -1}]
   @directions [{0, 1}, {0, -1}, {1, 0}, {-1, 0}] ++ @x_directions
-
-  @spec valid_position?({integer(), integer()}, {integer(), integer()}) :: boolean()
-  def valid_position?({y, x}, {m, n}) do
-    x >= 0 and x < n and y >= 0 and y < m
-  end
-
-  def size_grid(grid) do
-    {length(grid), length(hd(grid))}
-  end
 
   @spec search(list(binary()), binary(), boolean()) :: list()
   def search(lines, word, use_x \\ false) do
