@@ -12,7 +12,7 @@ defmodule AdventOfCode.Day7 do
       |> String.split(" ")
       |> then(&can_solve?(tl(&1), hd(&1), test_value, ops))
 
-    if is_valid?, do: test_value, else: 0
+    if is_valid?, do: {test_value, line}, else: {0, line}
   end
 
   defp can_solve?([], acc, test_value, _), do: String.to_integer(acc) == test_value
