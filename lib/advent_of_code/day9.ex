@@ -86,4 +86,37 @@ defmodule AdventOfCode.Day9 do
   end
 
   defp move_files([], _), do: []
+  defp move_files([file | remaining_files], frees) do
+    frees_before = frees |> Enum.filter(&is_before_file?(file, &1))
+    case find_free_space(file, frees_before) do
+      {:not_found, _, _} ->
+        [file | move_files(remaining_files, frees_before)]
+      {:found, new_frees, new_file} ->
+        [new_file | move_files(remaining_files, new_frees)]
+    end
+  end
+
+  # try to find a free space large enough for the file
+  # if found, edit and return the free space list along with the moved file with the :found atom
+  # if not found, return the :not_found atom
+  defp find_free_space(file, frees) do
+    index = frees |> Enum.find_index(&has_enough_space?(file, &1))
+    case index do
+      nil -> {:not_found, nil, nil}
+      index ->
+        free_space = frees |> Enum.at(index)
+        edited_free_space = DiskMapEntry.new_free(free_space.offset + file.size, free_space.size - file.size)
+        new_frees =
+          frees
+          |> List.replace_at(index, edited_free_space)
+          |> Enum.filter(&is_before_file?(file, &1))
+        # need to remove all after the file offset
+        new_file = DiskMapEntry.new_file(file.id, free_space.offset, file.size)
+        {:found, new_frees, new_file}
+    end
+  end
+
+  defp has_enough_space?(file, free_space), do: free_space.size >= file.size
+  defp is_before_file?(file, free), do: file.offset > free.offset
+
 end
