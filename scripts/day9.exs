@@ -1,13 +1,13 @@
 require AdventOfCode
 alias AdventOfCode.Day9, as: D9
 
-line =
-  AdventOfCode.readlines("./scripts/data/day9.txt")
-  |> Enum.at(0)
-  |> String.graphemes()
+line = AdventOfCode.readlines("./scripts/data/day9_test.txt") |> Enum.at(0)
+{checksum, compacted} = D9.checksum_dense(line)
 
-{checksum, blocks} = D9.parse_digits(line)
+IO.inspect(checksum)
+IO.inspect(compacted)
 
-IO.puts("Checksum; #{checksum}")
-IO.inspect(blocks)
-IO.inspect(blocks |> Enum.all?(&(&1 > -1)))
+{checksum, moved} = D9.checksum_move(line)
+
+IO.inspect(checksum)
+IO.inspect(moved)
