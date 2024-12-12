@@ -24,6 +24,7 @@
           erlang
           elixir
           mix2nix
+          blas
         ];
       };
     };
