@@ -76,8 +76,10 @@ defmodule AdventOfCode.Day8 do
     cond do
       is_part1? ->
         [antinode]
+
       valid_position?(antinode, size) ->
         gen_antinodes(antinode_m, edge, op, size, [antinode | acc], is_part1?)
+
       true ->
         acc
     end
