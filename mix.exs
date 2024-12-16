@@ -28,7 +28,8 @@ defmodule AdventOfCode.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:matrex, "~> 0.6.8"}
+      {:matrex, "~> 0.6.8"},
+      {:libgraph, "~> 0.16.0"}
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
     ]
   end

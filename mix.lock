@@ -1,4 +1,5 @@
 %{
   "elixir_make": {:hex, :elixir_make, "0.9.0", "6484b3cd8c0cee58f09f05ecaf1a140a8c97670671a6a0e7ab4dc326c3109726", [:mix], [], "hexpm", "db23d4fd8b757462ad02f8aa73431a426fe6671c80b200d9710caf3d1dd0ffdb"},
+  "libgraph": {:hex, :libgraph, "0.16.0", "3936f3eca6ef826e08880230f806bfea13193e49bf153f93edcf0239d4fd1d07", [:mix], [], "hexpm", "41ca92240e8a4138c30a7e06466acc709b0cbb795c643e9e17174a178982d6bf"},
   "matrex": {:hex, :matrex, "0.6.8", "ccb491e661bae7931ee6b0e68f5e1cd28528e5360a59bc3ab4d759b89be1701e", [:make], [{:elixir_make, "~> 0.4", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm", "043ef9fdd9809b012568915f2fc396ea5c5631fd792f75c1148f03d478d60901"},
 }
