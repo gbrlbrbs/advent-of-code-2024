@@ -50,7 +50,7 @@ defmodule AdventOfCode.Day6 do
     {next_y, next_x} = move_one({y, x}, dir_idx)
 
     if valid_position?({next_y, next_x}, {m, n}) do
-      case access_grid(grid, next_y, next_x) do
+      case access_grid(grid, {next_y, next_x}) do
         "#" ->
           new_dir = Integer.mod(dir_idx + 1, 4)
           move_guard({y, x}, {m, n}, grid, new_dir, seen)
@@ -64,8 +64,8 @@ defmodule AdventOfCode.Day6 do
   end
 
   defp move_one({y, x}, dir_idx) do
-    dy = @directions |> access_grid(dir_idx, 0)
-    dx = @directions |> access_grid(dir_idx, 1)
+    dy = @directions |> access_grid({dir_idx, 0})
+    dx = @directions |> access_grid({dir_idx, 1})
     {y + dy, x + dx}
   end
 
@@ -99,7 +99,7 @@ defmodule AdventOfCode.Day6 do
       valid_position?({next_y, next_x}, {m, n}) ->
         seen = seen |> MapSet.put({y, x, dir_idx})
 
-        case access_grid(grid, next_y, next_x) do
+        case access_grid(grid, {next_y, next_x}) do
           "#" ->
             new_dir = Integer.mod(dir_idx + 1, 4)
             will_loop?({y, x}, {obs_y, obs_x}, {m, n}, grid, new_dir, seen)
