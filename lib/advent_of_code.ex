@@ -18,7 +18,7 @@ defmodule AdventOfCode do
 
   def size_grid(grid), do: {length(grid), length(hd(grid))}
 
-  @spec valid_position?({integer()}, {integer()}) :: boolean()
+  @spec valid_position?({integer(), integer()}, {integer(), integer()}) :: boolean()
   def valid_position?({row, col}, {m, n}) do
     row >= 0 and row < m and col >= 0 and col < n
   end

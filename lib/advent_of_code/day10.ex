@@ -4,13 +4,13 @@ defmodule AdventOfCode.Day10 do
 
   @directions [{0, 1}, {1, 0}, {0 ,-1}, {-1, 0}]
 
-  defp parse_lines(lines) do
+  def parse_lines(lines) do
     grid = create_grid(lines, &String.to_charlist/1)
     size = size_grid(grid)
     {grid, size}
   end
 
-  defp create_graph(grid, size) do
+  def create_graph(grid, size) do
     g = Graph.new()
     create_graph({0, 0}, size, grid, g)
   end
@@ -20,7 +20,7 @@ defmodule AdventOfCode.Day10 do
     level = access_grid(grid, {row, col})
     graph |> Graph.add_vertex({level, {m, n}})
   end
-  
+
   defp create_graph({row, col}, size, grid, graph) do
     level = access_grid(grid, {row, col})
     graph = graph |> Graph.add_vertex({level, {row, col}})
